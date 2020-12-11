@@ -26,7 +26,7 @@ module.exports.addItem = (event, context, callback) => {
     createdAt: new Date().toISOString(), //automatically adds a human-readable date
     name: reqBody.name, //destructures the name string out of the request body
     //and saves it to the name key for the database
-    definition: reqBody.definition, //destructures the definition string out
+    interests: reqBody.interests, //destructures the definition string out
     //of the request body and saves it to the definition key for the database
   };
 

@@ -3,7 +3,6 @@
 const AWS = require('aws-sdk'); //requires AWS CLI that you set up with your credentials earlier
 const db = new AWS.DynamoDB.DocumentClient({ apiVersion: '2019.11.21' }); //creates a
 //new instance of DynamoDB when called using the AWS SDK
-const { v4: uuidv4 } = require('uuid'); //auto-generates unique ids
 
 const bootcamperTable = process.env.TABLE;
 const response = require('../handler'); // response helper function
