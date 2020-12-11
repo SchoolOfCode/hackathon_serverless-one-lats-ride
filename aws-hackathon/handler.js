@@ -1,18 +1,29 @@
-'use strict';
+'use strict'; //enables strict mode, which makes things that normally cause
+//warnings error out (keeps the code cleaner)
+const AWS = require('aws-sdk'); //requires AWS CLI that you set up with your credentials earlier
+const db = new AWS.DynamoDB.DocumentClient({ apiVersion: '2019.11.21' }); //creates a
+//new instance of DynamoDB when called using the AWS SDK
+const { v4: uuidv4 } = require('uuid'); //auto-generates unique ids
 
-module.exports.hello = async event => {
+const bootcamperTable = process.env.TABLE;
+
+//---------HELPER FUNCTION TO SEND RESPONSE JSONS WITH HEADERS:---------
+
+//This saves you from having to do these bits to process the response in each function :)
+module.exports.response = (statusCode, message) => {
+  //takes in the status code and a message (an object) from the response
   return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
+    statusCode: statusCode,
+    //gives us back the status code it's received
+    headers: {
+      //sticks all the right headers on to talk to the request during the
+      //preflight check (CORS)
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Methods': 'GET, OPTIONS, POST, PUT, DELETE',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(message), //stringifies the body object into JSON
   };
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
